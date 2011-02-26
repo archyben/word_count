@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+<bean id="inputStreamFacade" class="org.archy.wordcount.app.business.helper.InputStreamFacade">
+</bean>
+
+<bean id="wordCount" class="org.archy.wordcount.app.business.WordCount">
+<constructor-arg ref="inputStreamFacade" />
+</bean>
+
+<bean id="dialogBean" class="org.archy.wordcount.app.ihm.model.DialogBean">
+<constructor-arg>
+<list>
+<ref bean="frameView"/>
+</list>
+</constructor-arg>
+</bean>
+<bean id="wordCountBean" class="org.archy.wordcount.app.ihm.model.WordCountBean">
+<constructor-arg>
+<list>
+<ref bean="resultView"/>
+</list>
+</constructor-arg>
+</bean>
+
+<bean id="pathView" class="org.archy.wordcount.app.ihm.view.PathView">
+<constructor-arg ref="fileLoadController"></constructor-arg>
+</bean>
+
+<bean id="tableView" class="org.archy.wordcount.app.ihm.view.TableView">
+<constructor-arg ref="wordCountBean"></constructor-arg>
+</bean>
+
+<bean id="resultView" class="org.archy.wordcount.app.ihm.view.ResultView">
+<constructor-arg ref="tableView"></constructor-arg>
+</bean>
+
+<bean id="fileLoadController" class="org.archy.wordcount.app.ihm.controller.FileLoadController">
+<constructor-arg ref="pathView"></constructor-arg>
+<constructor-arg ref="wordCount"></constructor-arg>
+<constructor-arg ref="wordCountBean"></constructor-arg>
+<constructor-arg ref="dialogBean"></constructor-arg>
+</bean>
+
+<bean id="frameView" class="org.archy.wordcount.app.ihm.view.FrameView">
+<constructor-arg ref="pathView"></constructor-arg>
+<constructor-arg ref="resultView"></constructor-arg>
+</bean>
+
+</beans>
